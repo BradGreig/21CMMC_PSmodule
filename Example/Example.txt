@@ -1,0 +1,3 @@
+The file “Run_21cmBoxPS.py” provides an example of how to interface the 21cm power spectrum module with the newest version of 21CMMC. 
+
+Requires newest version of 21CMMC (either of development-Steven/development-Brad should work) 
