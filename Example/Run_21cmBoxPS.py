@@ -12,7 +12,7 @@ import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 import matplotlib
 
-from py21cmmc._21cmfast import initial_conditions, perturb_field, UserParams, CosmoParams, ionize_box, FlagOptions, AstroParams, spin_temperature, brightness_temperature, run_coeval, run_lightcone, electron_opticaldepth, compute_luminosity_function
+from py21cmmc._21cmfast import initial_conditions, perturb_field, UserParams, CosmoParams, ionize_box, FlagOptions, AstroParams, spin_temperature, brightness_temperature, run_coeval, run_lightcone, compute_tau, compute_luminosity_function
 
 np.seterr(invalid='ignore', divide='ignore')
 
@@ -45,16 +45,18 @@ if __name__ == '__main__':
 	FFTW_WISDOM = False
 
 	UParams = UserParams(USE_FFTW_WISDOM=FFTW_WISDOM,HMF=1)
-	CParams = CosmoParams(RANDOM_SEED=1)
+	CParams = CosmoParams()
 	AParams = AstroParams()
-	FOptions = FlagOptions(USE_MASS_DEPENDENT_ZETA=True,USE_TS_FLUCT=True,INHOMO_RECO=True,SUBCELL_RSD=True)
+	FOptions = FlagOptions(USE_MASS_DEPENDENT_ZETA=True,USE_TS_FLUCT=True,INHOMO_RECO=True,SUBCELL_RSD=True,OUTPUT_AVE=True)
+
+	RANDOM_SEED = 1
 
 	# Final redshift for the light-cone box
 	z_final = 6.0
 	redshift = z_final*1.0001
 
 	# Setup and return the initial conditions
-	init_boxes = initial_conditions(user_params=UParams,cosmo_params=CParams,regenerate=True)
+	init_boxes = initial_conditions(user_params=UParams,cosmo_params=CParams, random_seed=RANDOM_SEED,regenerate=True)
 
 	# Construct and return the perturbed field for the final redshift
 	perturb_field_finalz = perturb_field(redshift=redshift,init_boxes=init_boxes)
